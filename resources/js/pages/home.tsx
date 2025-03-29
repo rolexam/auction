@@ -1,10 +1,14 @@
 import { type SharedData, type Auction } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import AuctionComponent from '@/components/auction/auction';
+import { LogOut, Settings } from 'lucide-react';
+import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { UserInfo } from '@/components/user-info';
 
 export default function Welcome({ auctions }: {auctions: Auction[]}) {
     const { auth } = usePage<SharedData>().props;
-    
+    const cleanup = useMobileNavigation();
+
     return (
         <>
             <Head title="Home" />
@@ -12,12 +16,23 @@ export default function Welcome({ auctions }: {auctions: Auction[]}) {
                 <header className="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
                     <nav className="flex items-center justify-end gap-4">
                         {auth.user ? (
-                            <Link
-                                href={route('dashboard')}
-                                className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                            >
-                                Dashboard
-                            </Link>
+                            <>
+                                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                                    <UserInfo user={auth.user} showEmail={true} />
+                                </div>
+                                <Link
+                                    className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                                    href={route('profile.edit')}
+                                    as="button"
+                                    prefetch
+                                    onClick={cleanup}
+                                >
+                                    Profile
+                                </Link>
+                                <Link className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]" method="post" href={route('logout')} as="button" onClick={cleanup}>
+                                    Log out
+                                </Link>
+                            </>
                         ) : (
                             <>
                                 <Link
@@ -36,8 +51,7 @@ export default function Welcome({ auctions }: {auctions: Auction[]}) {
                         )}
                     </nav>
                 </header>
-                <div
-                    className="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">
+                <div className="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">
                     <div className="container mx-auto px-4 py-6">
                         {auctions.map((auction) => (
                             <AuctionComponent key={auction.id} auction={auction} />

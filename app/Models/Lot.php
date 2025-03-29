@@ -21,4 +21,11 @@ class Lot extends Model
         return $this->hasMany(Bid::class);
     }
 
+    protected function casts()
+    {
+        return [
+            'end_date' => 'timestamp',
+        ];
+    }
+
 }
