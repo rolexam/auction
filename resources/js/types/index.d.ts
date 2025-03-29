@@ -40,3 +40,22 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Auction {
+    id: number;
+    title: string;
+    start_date: Date;
+    end_date: Date;
+    lots: Lot[];
+}
+
+export interface Lot {
+    id: number;
+    order: number;
+    starting_price: number;
+    increment: number;
+    title: string;
+    photo: string;
+    description: string;
+    end_date: Date;
+}
