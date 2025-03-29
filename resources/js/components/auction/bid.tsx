@@ -1,5 +1,5 @@
 import { Lot, type SharedData } from '@/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { usePage } from '@inertiajs/react';
 
@@ -8,6 +8,15 @@ export default function BidComponent({ lot }: {lot: Lot}) {
 
     const minBid = lot.starting_price + lot.increment;
     const [bidAmount, setBidAmount] = useState(minBid);
+    const [now, setNow] = useState(new Date());
+
+    // Это такой хак, чтобы компонент обновлялся
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNow(new Date());
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
 
     const handleBidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(e.target.value);
@@ -28,7 +37,7 @@ export default function BidComponent({ lot }: {lot: Lot}) {
                 onChange={handleBidChange}
                 className="border rounded px-2 py-1 w-24"
             />
-            <Button disabled={auth.user === null} variant="default" onClick={handlePlaceBid}>
+            <Button disabled={auth.user === null || lot.end_date <= now} variant="default" onClick={handlePlaceBid}>
                 Place Bid
             </Button>
         </div>
