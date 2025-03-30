@@ -28,6 +28,11 @@ class BidController extends Controller
             'price' => $newBid,
         ]);
 
+        if (now()->diffInSeconds($lot->end_date) < 60) {
+            $lot->end_date = $lot->end_date->addMinute();
+            $lot->save();
+        }
+
         broadcast(new BidPlaced($lot))->toOthers();
 
         return response()->json(['success' => true, 'lot' => $lot], 201);

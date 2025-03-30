@@ -49,6 +49,12 @@ export interface Auction {
     lots: Lot[];
 }
 
+export interface Bid {
+    id: number;
+    user_id: number;
+    price: number;
+}
+
 export interface Lot {
     id: number;
     order: number;
@@ -59,4 +65,5 @@ export interface Lot {
     description: string;
     end_date: Date;
     current_price: number;
+    last_bid: Bid;
 }
