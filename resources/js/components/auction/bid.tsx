@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Lot, SharedData } from '@/types';
 import { usePage } from '@inertiajs/react';
@@ -13,6 +13,10 @@ export default function BidComponent({ lot, now }: BidComponentProps) {
 
     const minBid = lot.starting_price + lot.increment;
     const [bidAmount, setBidAmount] = useState(minBid);
+
+    useEffect(() => {
+        setBidAmount(minBid);
+    }, [minBid]);
 
     const handleBidChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = Number(e.target.value);
