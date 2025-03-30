@@ -14,7 +14,7 @@ class AuctionSeeder extends Seeder
     public function run(): void
     {
         DB::table('auctions')->insert([
-            'title' => 'Simon\'s First Auction',
+            'title' => 'First Auction',
             'start_date' => now(),
             'end_date' => now()->endOfDay(),
         ]);
