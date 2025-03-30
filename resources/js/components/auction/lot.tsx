@@ -47,7 +47,7 @@ export default function LotComponent({ lot }: {lot: Lot}) {
             <h3 className="text-lg font-semibold">{lotData.title}</h3>
             <p className="text-base">
                 Current Bid: ${lotData.current_price}
-                { auth.user && auth.user.id === lotData.last_bid.user_id
+                { auth.user && lotData.last_bid && auth.user.id === lotData.last_bid.user_id
                     && (<span className="ml-2 inline-block rounded bg-green-500 px-2 py-1 text-xs font-bold text-white dark:bg-green-400">You</span>)
                 }
             </p>
