@@ -58,4 +58,5 @@ export interface Lot {
     photo: string;
     description: string;
     end_date: Date;
+    current_price: number;
 }

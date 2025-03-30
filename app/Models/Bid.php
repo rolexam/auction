@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Bid extends Model
 {
 
+    const UPDATED_AT = null;
+
+    protected $guarded = [];
+
     public function lot(): BelongsTo
     {
         return $this->belongsTo(Lot::class);

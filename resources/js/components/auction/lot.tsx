@@ -11,6 +11,7 @@ export default function LotComponent({ lot }: {lot: Lot}) {
     // Состояние для текущего времени, обновляемое каждую секунду
     const [now, setNow] = useState(new Date());
     const [lotData, setLotData] = useState<Lot>(lot);
+    const [flash, setFlash] = useState(false);
 
 
     useEffect(() => {
@@ -26,6 +27,8 @@ export default function LotComponent({ lot }: {lot: Lot}) {
             console.log(event)
             if (event.lot.id === lotData.id) {
                 setLotData(event.lot);
+                setFlash(true);
+                setTimeout(() => setFlash(false), 1000); // эффект длится 1 секунду
             }
         });
 
@@ -36,14 +39,19 @@ export default function LotComponent({ lot }: {lot: Lot}) {
 
 
     return (
-      <Card key={lotData.id} className="p-4">
+      <Card
+          key={lotData.id}
+          className={`p-4 transition-all duration-500 ${
+              flash ? 'ring-4 ring-green-500 dark:ring-green-400' : ''
+          }`}
+      >
           <img
               src={`/images/lots/${lotData.photo}`}
               alt={lotData.title}
               className="w-full object-cover rounded-md mb-2"
           />
           <h3 className="text-lg font-semibold">{lotData.title}</h3>
-          <p>Current Bid: ${lotData.starting_price}</p>
+          <p>Current Bid: ${lotData.current_price}</p>
           <p>Increment: ${lotData.increment}</p>
           <div className="flex items-center">
               <p className="mr-2">Lot closes: </p>

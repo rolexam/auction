@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\BidController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/lots/{lot}/bid', [BidController::class, 'placeBid'])->middleware('auth');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
