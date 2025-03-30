@@ -24,7 +24,7 @@ class Lot extends Model
     protected function casts()
     {
         return [
-            'end_date' => 'timestamp',
+            'end_date' => 'datetime',
         ];
     }
 
